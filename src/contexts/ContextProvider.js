@@ -1,4 +1,11 @@
-import React, { useState, createContext, useContext } from "react";
+import React, { useState, createContext, useContext, useEffect } from "react";
+// import {
+//   createUserWithEmailAndPassword,
+//   signInWithEmailAndPassword,
+//   signOut,
+//   onAuthStateChanged,
+// } from "firebase/auth";
+import { auth } from "../firebase";
 const StateContext = createContext();
 const initialState = {
   chat: false,
@@ -13,6 +20,8 @@ export const ContextProvider = ({ children }) => {
   const [currentColor, setCurrentColor] = useState("#03C9D7");
   const [currentMode, setCurrentMode] = useState("Light");
   const [themeSettings, setThemeSettings] = useState(false);
+  const [user, setUser] = useState(false);
+
   const setMode = (e) => {
     setCurrentMode(e.target.value);
 
@@ -44,11 +53,14 @@ export const ContextProvider = ({ children }) => {
         currentColor,
 
         currentMode,
-
+        setCurrentMode,
         themeSettings,
         setThemeSettings,
         setMode,
         setColor,
+        setCurrentColor,
+        user,
+        setUser,
       }}
     >
       {children}
