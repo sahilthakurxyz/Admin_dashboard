@@ -41,7 +41,9 @@ const App = () => {
       {!user ? (
         <>
           <Routes>
-            <Route path="/" element={<SignIn />} />
+            <Route path="/Admin_dashboard" element={<SignIn />} />
+            <Route path="/signin" element={<SignIn />} />
+
             <Route path="/signup" element={<SignUp />} />
           </Routes>
         </>

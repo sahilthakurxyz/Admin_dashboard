@@ -8,10 +8,10 @@ import avatar from "../data/avatar.jpg";
 import { Link } from "react-router-dom";
 
 const UserProfile = () => {
-  const { setLog } = useStateContext();
+  const { setUser } = useStateContext();
 
   const HandleChange = () => {
-    setLog((prev) => false);
+    setUser((prev) => !prev);
   };
   return (
     <div className="nav-item absolute right-1 top-16 bg-white dark:bg-[#42464D] p-8 rounded-lg w-96">
@@ -71,7 +71,7 @@ const UserProfile = () => {
         ))}
       </div>
       <div className="mt-5">
-        <Link to="/">
+        <Link to="/Admin_dashboard">
           <button
             onClick={HandleChange}
             className="bg-blue-500 rounded-15 hover:bg-blue-700 text-white  font-bold py-2 px-4 rounded shadow hover:shadow-lg"

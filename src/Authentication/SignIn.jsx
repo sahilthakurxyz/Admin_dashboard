@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useStateContext } from "../contexts/ContextProvider";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const SignIn = () => {
+  let navigate = useNavigate();
   const { user, setUser } = useStateContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -10,17 +13,38 @@ const SignIn = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const onButtonHandle = (e) => {
     e.preventDefault();
+
     auth
       .signInWithEmailAndPassword(email, password)
       .then((auth) => {
         if (auth) {
-          alert("Welcome to you admin dashboard");
-          setUser((pre) => !pre);
+          toast.success("🦄 Secessfully login!", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+          setTimeout(() => {
+            setUser((pre) => !pre);
+            navigate("/");
+          }, 4000);
         }
       })
       .catch((err) => {
-        alert(err.message);
-        console.log(err.message);
+        toast.error("Wrong Password!", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       });
   };
   const toggleMode = () => {
@@ -64,13 +88,16 @@ const SignIn = () => {
               }`}
             />
           </div>
+
           <div className="mb-6">
             <label htmlFor="password" className="block font-semibold mb-2">
               Password
             </label>
             <input
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
               type="password"
               id="password"
               className={`w-full rounded border-gray-300 py-2 px-3 focus:outline-none focus:ring-2 ${
@@ -94,9 +121,21 @@ const SignIn = () => {
             isDarkMode ? "text-gray-700" : "text-gray-700"
           }`}
         >
-          Don't have an account?<Link to="/signup"> Sign In</Link>
+          Don't have an account?<Link to="/signup"> Sign Up</Link>
         </p>
       </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </div>
   );
 };

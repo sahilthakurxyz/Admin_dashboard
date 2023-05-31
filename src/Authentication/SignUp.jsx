@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useStateContext } from "../contexts/ContextProvider";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const SignUp = () => {
   const navigate = useNavigate();
   const { createUser } = useStateContext();
@@ -10,6 +12,7 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isDarkMode, setIsDarkMode] = useState(false);
+  let specialCharacters = /[@#$&123]/;
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -19,8 +22,19 @@ const SignUp = () => {
         .createUserWithEmailAndPassword(email, password)
         .then((currentUser) => {
           if (currentUser) {
-            alert("Congratulation Account Created");
-            navigate("/");
+            toast.success("🦄 seccessfully created new Account!", {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
+            setTimeout(() => {
+              navigate("/signin");
+            }, 4000);
           }
         });
     } catch (err) {
@@ -74,9 +88,14 @@ const SignUp = () => {
             <label htmlFor="password" className="block font-semibold mb-2">
               Password
             </label>
+            <div style={{ color: "red" }}>
+              {email.length && !email.includes("@gmail.com")
+                ? "make sure email must contain in the end @gmail.com"
+                : ""}
+            </div>
             <input
               value={password}
-              placeholder="Password.."
+              placeholder="Password..."
               onChange={(e) => setPassword(e.target.value)}
               type="password"
               id="password"
@@ -84,6 +103,19 @@ const SignUp = () => {
                 isDarkMode ? "bg-gray-800 text-white" : ""
               }`}
             />
+            <div
+              className={`${
+                password.length >= 6 && specialCharacters.test(password)
+                  ? " bg-white text-blue-600"
+                  : " text-red-700"
+              }`}
+            >
+              {password.length >= 6 && specialCharacters.test(password)
+                ? "strong password"
+                : password.length > 3
+                ? "week password"
+                : ""}
+            </div>
           </div>
 
           <button
@@ -100,9 +132,21 @@ const SignUp = () => {
             isDarkMode ? "text-gray-700" : "text-gray-700"
           }`}
         >
-          Already have an account ?<Link to="/">Sign In</Link>
+          Already have an account ?<Link to="/signin">Sign In</Link>
         </p>
       </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </div>
   );
 };

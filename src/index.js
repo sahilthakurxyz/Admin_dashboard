@@ -8,7 +8,7 @@ import { BrowserRouter } from "react-router-dom";
 ReactDOM.render(
   <BrowserRouter>
     <ContextProvider>
-      <AuthPage />
+      <App />
     </ContextProvider>
   </BrowserRouter>,
   document.getElementById("root")

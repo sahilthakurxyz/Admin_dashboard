@@ -2,6 +2,7 @@ import React from "react";
 import { BsCurrencyDollar } from "react-icons/bs";
 import { GoPrimitiveDot } from "react-icons/go";
 import { Stacked, Pie, Button, SparkLine } from "../components";
+
 import {
   earningData,
   SparklineAreaData,
@@ -11,6 +12,7 @@ import { useStateContext } from "../contexts/ContextProvider";
 
 const Ecommerce = () => {
   const { currentColor } = useStateContext();
+
   return (
     <div className="mt-12">
       {/* All section with downlaod customers,product sales Reunds section as well */}
