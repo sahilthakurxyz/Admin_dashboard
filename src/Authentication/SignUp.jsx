@@ -39,7 +39,17 @@ const SignUp = () => {
         });
     } catch (err) {
       setError(err.message);
-      console.log(err.message);
+      console.error("Error creating new account:", err);
+      toast.error(err.message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
